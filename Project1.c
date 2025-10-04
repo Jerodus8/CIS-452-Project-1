@@ -238,13 +238,7 @@ int main(void) {
     int tokenReadFd = tokenPipe[(myId - 1 + k) % k][0];
     int tokenWriteFd= tokenPipe[myId][1];
 
-    // Parent close unused ends
-    for (int j = 0; j < k; ++j) {
-        if (dataPipe[j][0] != dataReadFd) close(dataPipe[j][0]);
-        if (dataPipe[j][1] != dataWriteFd) close(dataPipe[j][1]);
-        if (tokenPipe[j][0] != tokenReadFd) close(tokenPipe[j][0]);
-        if (tokenPipe[j][1] != tokenWriteFd) close(tokenPipe[j][1]);
-    }
+    // old place
 
     printf("[parent node 0] spawned %d children; parent pid %d\n", childCount, getpid());
     fflush(stdout);
@@ -282,6 +276,14 @@ int main(void) {
         printf("[parent] seeded apple to start at node 0\n");
     }
     fflush(stdout);
+
+    // Parent close unused ends
+    for (int j = 0; j < k; ++j) {
+        if (dataPipe[j][0] != dataReadFd) close(dataPipe[j][0]);
+        if (dataPipe[j][1] != dataWriteFd) close(dataPipe[j][1]);
+        if (tokenPipe[j][0] != tokenReadFd) close(tokenPipe[j][0]);
+        if (tokenPipe[j][1] != tokenWriteFd) close(tokenPipe[j][1]);
+    }
 
     // Parent main loop: behaves like other nodes except it prompts user when it holds the apple
     while (1) {
