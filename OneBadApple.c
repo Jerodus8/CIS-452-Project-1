@@ -246,16 +246,6 @@ int main(void) {
     printf("[parent node 0] spawned %d children; parent pid %d\n", childCount, getpid());
     fflush(stdout);
 
-    // Install SIGINT handler for graceful shutdown
-    struct sigaction sa;
-    sa.sa_handler = handleSigInt;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
-    if (sigaction(SIGINT, &sa, NULL) < 0) {
-        perror("sigaction");
-        // continue even if signal install fails
-    }
-
     // Seed the ring with an empty message (so reads won't block FIFO-wisely)
     Message initial;
     initial.dest = -1;
