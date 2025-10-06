@@ -17,7 +17,6 @@ typedef struct {
 
 static pid_t *childPids = NULL;
 static int childCount = 0;
-static volatile sig_atomic_t sigintReceived = 0;
 int dataReadFd;
 int dataWriteFd;
 int tokenReadFd;
